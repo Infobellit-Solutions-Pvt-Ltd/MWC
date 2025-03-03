@@ -1,1 +1,4 @@
+location=spain
+epdu1=RMF123456
+epdu2=RMF123457
 
