@@ -1,0 +1,58 @@
+#!/bin/bash 
+
+# Common data
+# LLM_LLAMA_MODEL_LOCATION="${HOME}/demo/models/llama3.2-1b"
+LLM_DS_MODEL_LOCATION="${HOME}/demo/models/deepseek1.5b"
+DOCKER_COMP_NUM_CONTAINERS_1P_VIT=2                     #(Max 2 containers)
+DOCKER_COMP_NUM_CONTAINERS_2P_LLM=2                     #(Max 4 containers)
+DOCKER_COMP_NUM_CONTAINERS_2P_VIT=4                     #(Max 6 containers)
+DOCKER_COMP_NUM_CONTAINERS_2PC_LLM=3                    #(Max 4 containers)     
+DOCKER_COMP_NUM_CONTAINERS_2PC_VIT=8                    #(Max 10 containers)
+LLM_HF_TOKEN=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
+LLM_DS_HOST_PORT=8002
+VIT_HOST_PORT=8080
+
+# Docker Images (DI)
+LLM_LOADGEN_DI=sarthakd112/llm_loadgen:v3
+LLM_DEPLOY_DI=sarthakd112/vllm-cpu:latest
+VIT_LOADGEN_DI=sarthakd112/vit_loadgen:v1
+VIT_DEPLOY_DI=sarthakd112/vit-torchserve:latest
+
+# SERVER DETAILS
+SERVER_1P="10.86.18.6"
+SERVER_2P="10.86.24.191"
+SERVER_2PC_A="10.86.24.181"
+SERVER_2PC_B="10.86.24.168"
+
+RABBITMQ_HOST="10.86.18.247"
+RABBITMQ_USER='admin'
+RABBITMQ_PASSWORD='Infobell1234#'
+
+# ADD YOUR WORKLOAD ENDPOINTS HERE
+
+# For LLMs
+ENDPOINT_1P_LLM_DS="http://${SERVER_1P}:${LLM_DS_HOST_PORT}/v1/completions"
+ENDPOINT_2P_LLM_DS="http://${SERVER_2P}:${LLM_DS_HOST_PORT}/v1/completions"
+ENDPOINT_2PC_LLM_DS="http://${SERVER_2PC_A}:${LLM_DS_HOST_PORT}/v1/completions"
+
+# For VIT
+ENDPOINT_1P_VIT="http://${SERVER_1P}:${VIT_HOST_PORT}/predictions/vit-base-patch16-224"
+ENDPOINT_2P_VIT="http://${SERVER_2P}:${VIT_HOST_PORT}/predictions/vit-base-patch16-224"
+ENDPOINT_2PC_VIT="http://${SERVER_2PC_B}:${VIT_HOST_PORT}/predictions/vit-base-patch16-224"
+
+# # ADD YOUR LOADGEN PARAMETERS HERE
+
+# For LLMs
+LLM_1P_TOPIC=1P_LLM
+LLM_2P_TOPIC=2P_LLM
+LLM_2PC_TOPIC=2PC_LLM
+
+# For VIT
+VIT_1P_TOPIC="1P_VIT"
+VIT_1P_SAMPLE_SIZE="100"   # FOR EACH USER
+
+VIT_2P_TOPIC="2P_VIT"
+VIT_2P_SAMPLE_SIZE="100"    # FOR EACH USER
+
+VIT_2PC_TOPIC="2PC_VIT"
+VIT_2PC_SAMPLE_SIZE="100"    # FOR EACH USER
